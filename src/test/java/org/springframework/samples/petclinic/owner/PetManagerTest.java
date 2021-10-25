@@ -21,15 +21,16 @@ class PetManagerTest {
 	@MockBean
 	private Logger logger;
 	private PetManager petManager;
+	private Owner expectedOwner;
 
 	@BeforeEach
 	void setUp(){
 		petManager = new PetManager(petTimedCache, ownerRepository, logger);
+		expectedOwner = new Owner();
 	}
 
 	@Test
-	void findOwner_method_returns_the_correct_owner_with_the_requested_id(){
-		Owner expectedOwner = new Owner();
+	void Method_findOwner_returns_the_correct_owner_with_the_requested_id(){
 		when(ownerRepository.findById(1)).thenReturn(expectedOwner);
 		Owner actualOwner = petManager.findOwner(1);
 		assertNotNull(actualOwner);
@@ -41,5 +42,12 @@ class PetManagerTest {
 	void Null_is_returned_if_owner_with_given_id_is_not_found(){
 		assertNull(petManager.findOwner(1));
 		verify(ownerRepository).findById(1);
+	}
+
+	@Test
+	void New_pet_is_created_and_is_owned_by_expected_owner(){
+		Pet expectedPet = petManager.newPet(expectedOwner);
+		assertNotNull(expectedPet);
+		assertEquals(expectedPet.getOwner(), expectedOwner);
 	}
 }

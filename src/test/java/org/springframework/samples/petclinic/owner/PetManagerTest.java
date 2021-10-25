@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.owner;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,5 +16,12 @@ class PetManagerTest {
 	private OwnerRepository ownerRepository;
 	@MockBean
 	private Logger logger;
+	private PetManager petManager;
+
+	@BeforeEach
+	void setUp(){
+		petManager = new PetManager(petTimedCache, ownerRepository, logger);
+	}
+
 
 }

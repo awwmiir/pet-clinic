@@ -36,4 +36,10 @@ class PetManagerTest {
 		assertEquals(actualOwner, expectedOwner);
 		verify(ownerRepository).findById(1);
 	}
+
+	@Test
+	void Null_is_returned_if_owner_with_given_id_is_not_found(){
+		assertNull(petManager.findOwner(1));
+		verify(ownerRepository).findById(1);
+	}
 }

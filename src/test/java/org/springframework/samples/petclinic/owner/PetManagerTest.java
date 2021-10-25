@@ -9,8 +9,7 @@ import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.samples.petclinic.utility.SimpleDI;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class PetManagerTest {
@@ -21,16 +20,15 @@ class PetManagerTest {
 	@MockBean
 	private Logger logger;
 	private PetManager petManager;
-	private Owner expectedOwner;
 
 	@BeforeEach
 	void setUp(){
 		petManager = new PetManager(petTimedCache, ownerRepository, logger);
-		expectedOwner = new Owner();
 	}
 
 	@Test
 	void Method_findOwner_returns_the_correct_owner_with_the_requested_id(){
+		Owner expectedOwner =  new Owner();
 		when(ownerRepository.findById(1)).thenReturn(expectedOwner);
 		Owner actualOwner = petManager.findOwner(1);
 		assertNotNull(actualOwner);
@@ -46,8 +44,19 @@ class PetManagerTest {
 
 	@Test
 	void New_pet_is_created_and_is_owned_by_expected_owner(){
-		Pet expectedPet = petManager.newPet(expectedOwner);
+		Owner spyOwner = mock(Owner.class);
+		Pet expectedPet = petManager.newPet(spyOwner);
 		assertNotNull(expectedPet);
-		assertEquals(expectedPet.getOwner(), expectedOwner);
+		verify(spyOwner).addPet(expectedPet);
+	}
+
+	@Test
+	void Method_findPet_returns_the_correct_pet_with_given_id(){
+		Pet expectedPet = new Pet();
+		when(petTimedCache.get(1)).thenReturn(expectedPet);
+		Pet actualPet = petManager.findPet(1);
+		assertNotNull(actualPet);
+		assertEquals(actualPet, expectedPet);
+		verify(petTimedCache).get(1);
 	}
 }

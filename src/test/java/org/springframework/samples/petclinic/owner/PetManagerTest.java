@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.owner;
 
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.samples.petclinic.utility.SimpleDI;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,26 +31,30 @@ class PetManagerTest {
 	private PetType dog, cat, mouse;
 	private Pet spike, tom, jerry;
 	private List<Pet> pets;
-	private List<PetType> petTypes;
+	private Set<PetType> petTypes;
 
 	@BeforeEach
 	void setUp(){
 		petManager = new PetManager(petTimedCache, ownerRepository, logger);
+		petTypes = new HashSet<>();
 		setUpTypes();
 		setUpPets();
 		pets = Arrays.asList(tom, spike, jerry);
-		petTypes = Arrays.asList(cat, dog, mouse);
 	}
 
 	void setUpTypes(){
 		dog = new PetType();
 		dog.setName("dog");
+		petTypes.add(dog);
 
 		cat = new PetType();
 		cat.setName("cat");
+		petTypes.add(cat);
+
 
 		mouse = new PetType();
 		mouse.setName("mouse");
+		petTypes.add(mouse);
 	}
 
 	void setUpPets(){
@@ -143,6 +146,8 @@ class PetManagerTest {
 
 	@Test
 	void Owner_pet_types_are_returned_correctly(){
-//		when()
+		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
+		when(owner.getPets()).thenReturn(pets);
+		assertEquals(petManager.getOwnerPetTypes(OWNER_ID), petTypes);
 	}
 }

@@ -128,6 +128,7 @@ class PetManagerTest {
 		verify(logger).info("save pet {}", 1);
 		verify(owner).addPet(expectedPet);
 		verify(petTimedCache).save(expectedPet);
+		verify(logger).info("save pet {}", 1);
 	}
 
 	@Test
@@ -137,5 +138,11 @@ class PetManagerTest {
 		assertEquals(petManager.getOwnerPets(1), pets);
 		verify(ownerRepository).findById(1);
 		verify(owner).getPets();
+		verify(logger).info("finding the owner's pets by id {}", 1);
+	}
+
+	@Test
+	void Owner_pet_types_are_returned_correctly(){
+//		when()
 	}
 }

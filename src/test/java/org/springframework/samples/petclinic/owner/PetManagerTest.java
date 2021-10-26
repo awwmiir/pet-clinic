@@ -27,6 +27,7 @@ class PetManagerTest {
 	@MockBean
 	private Owner owner;
 
+	private static final Integer OWNER_ID = 1, PET_ID = 2;
 	private PetManager petManager;
 	private PetType dog, cat, mouse;
 	private Pet spike, tom, jerry;
@@ -77,19 +78,19 @@ class PetManagerTest {
 
 	@Test
 	void Method_findOwner_returns_the_correct_owner_with_the_requested_id(){
-		when(ownerRepository.findById(1)).thenReturn(owner);
-		Owner actualOwner = petManager.findOwner(1);
+		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
+		Owner actualOwner = petManager.findOwner(OWNER_ID);
 		assertNotNull(actualOwner);
 		assertEquals(actualOwner, owner);
-		verify(ownerRepository).findById(1);
-		verify(logger).info("find owner {}", 1);
+		verify(ownerRepository).findById(OWNER_ID);
+		verify(logger).info("find owner {}", OWNER_ID);
 	}
 
 	@Test
 	void Method_findOwner_is_returned_if_owner_with_given_id_is_not_found(){
-		assertNull(petManager.findOwner(1));
-		verify(ownerRepository).findById(1);
-		verify(logger).info("find owner {}", 1);
+		assertNull(petManager.findOwner(OWNER_ID));
+		verify(ownerRepository).findById(OWNER_ID);
+		verify(logger).info("find owner {}", OWNER_ID);
 	}
 
 	@Test
@@ -104,41 +105,40 @@ class PetManagerTest {
 	@Test
 	void Method_findPet_returns_the_correct_pet_with_given_id(){
 		Pet expectedPet = new Pet();
-		when(petTimedCache.get(1)).thenReturn(expectedPet);
-		Pet actualPet = petManager.findPet(1);
+		when(petTimedCache.get(PET_ID)).thenReturn(expectedPet);
+		Pet actualPet = petManager.findPet(PET_ID);
 		assertNotNull(actualPet);
 		assertEquals(actualPet, expectedPet);
-		verify(petTimedCache).get(1);
-		verify(logger).info("find pet by id {}", 1);
+		verify(petTimedCache).get(PET_ID);
+		verify(logger).info("find pet by id {}", PET_ID);
 	}
 
 	@Test
 	void Method_findPet_returns_Null_if_pet_with_given_id_is_not_found(){
-		Pet actualPet = petManager.findPet(1);
+		Pet actualPet = petManager.findPet(PET_ID);
 		assertNull(actualPet);
-		verify(petTimedCache).get(1);
-		verify(logger).info("find pet by id {}", 1);
+		verify(petTimedCache).get(PET_ID);
+		verify(logger).info("find pet by id {}", PET_ID);
 	}
 
 	@Test
 	void Pet_is_saved_in_cache_and_is_owned_by_owner(){
 		Pet expectedPet = mock(Pet.class);
-		when(expectedPet.getId()).thenReturn(1);
+		when(expectedPet.getId()).thenReturn(PET_ID);
 		petManager.savePet(expectedPet, owner);
-		verify(logger).info("save pet {}", 1);
+		verify(logger).info("save pet {}", PET_ID);
 		verify(owner).addPet(expectedPet);
 		verify(petTimedCache).save(expectedPet);
-		verify(logger).info("save pet {}", 1);
 	}
 
 	@Test
 	void Owner_pets_are_returned_correctly(){
 		when(owner.getPets()).thenReturn(pets);
-		when(ownerRepository.findById(1)).thenReturn(owner);
-		assertEquals(petManager.getOwnerPets(1), pets);
-		verify(ownerRepository).findById(1);
+		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
+		assertEquals(petManager.getOwnerPets(OWNER_ID), pets);
+		verify(ownerRepository).findById(OWNER_ID);
 		verify(owner).getPets();
-		verify(logger).info("finding the owner's pets by id {}", 1);
+		verify(logger).info("finding the owner's pets by id {}", OWNER_ID);
 	}
 
 	@Test

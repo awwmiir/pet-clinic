@@ -19,6 +19,8 @@ class PetManagerTest {
 	private OwnerRepository ownerRepository;
 	@MockBean
 	private Logger logger;
+	@MockBean
+	private Owner owner;
 	private PetManager petManager;
 
 	@BeforeEach
@@ -28,12 +30,12 @@ class PetManagerTest {
 
 	@Test
 	void Method_findOwner_returns_the_correct_owner_with_the_requested_id(){
-		Owner expectedOwner =  new Owner();
-		when(ownerRepository.findById(1)).thenReturn(expectedOwner);
+		when(ownerRepository.findById(1)).thenReturn(owner);
 		Owner actualOwner = petManager.findOwner(1);
 		assertNotNull(actualOwner);
-		assertEquals(actualOwner, expectedOwner);
+		assertEquals(actualOwner, owner);
 		verify(ownerRepository).findById(1);
+		verify(logger).info("find owner {}", 1);
 	}
 
 	@Test
@@ -44,10 +46,9 @@ class PetManagerTest {
 
 	@Test
 	void New_pet_is_created_and_is_owned_by_expected_owner(){
-		Owner spyOwner = mock(Owner.class);
-		Pet expectedPet = petManager.newPet(spyOwner);
+		Pet expectedPet = petManager.newPet(owner);
 		assertNotNull(expectedPet);
-		verify(spyOwner).addPet(expectedPet);
+		verify(owner).addPet(expectedPet);
 	}
 
 	@Test

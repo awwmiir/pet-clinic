@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.owner;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ class PetManagerTest {
 	private Logger logger;
 	@MockBean
 	private Owner owner;
+
 	private PetManager petManager;
 	private PetType dog, cat, mouse;
 	private Pet spike, tom, jerry;
@@ -52,6 +54,17 @@ class PetManagerTest {
 
 		jerry = new Pet();
 		jerry.setType(mouse);
+	}
+
+	@AfterEach
+	void tearDown(){
+		petManager = null;
+		tom = null;
+		spike = null;
+		jerry = null;
+		dog = null;
+		cat = null;
+		mouse = null;
 	}
 
 	@Test

@@ -72,4 +72,14 @@ class PetManagerTest {
 		verify(petTimedCache).get(1);
 		verify(logger).info("find pet by id {}", 1);
 	}
+
+	@Test
+	void Pet_is_saved_in_cache_and_is_owned_by_owner(){
+		Pet expectedPet = mock(Pet.class);
+		when(expectedPet.getId()).thenReturn(1);
+		petManager.savePet(expectedPet, owner);
+		verify(logger).info("save pet {}", 1);
+		verify(owner).addPet(expectedPet);
+		verify(petTimedCache).save(expectedPet);
+	}
 }

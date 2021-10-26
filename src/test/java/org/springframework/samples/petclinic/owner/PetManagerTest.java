@@ -39,9 +39,10 @@ class PetManagerTest {
 	}
 
 	@Test
-	void Null_is_returned_if_owner_with_given_id_is_not_found(){
+	void Method_findOwner_is_returned_if_owner_with_given_id_is_not_found(){
 		assertNull(petManager.findOwner(1));
 		verify(ownerRepository).findById(1);
+		verify(logger).info("find owner {}", 1);
 	}
 
 	@Test
@@ -49,6 +50,8 @@ class PetManagerTest {
 		Pet expectedPet = petManager.newPet(owner);
 		assertNotNull(expectedPet);
 		verify(owner).addPet(expectedPet);
+		verify(logger).info("add pet for owner {}", owner.getId());
+
 	}
 
 	@Test
@@ -59,5 +62,14 @@ class PetManagerTest {
 		assertNotNull(actualPet);
 		assertEquals(actualPet, expectedPet);
 		verify(petTimedCache).get(1);
+		verify(logger).info("find pet by id {}", 1);
+	}
+
+	@Test
+	void Method_findPet_returns_Null_if_pet_with_given_id_is_not_found(){
+		Pet actualPet = petManager.findPet(1);
+		assertNull(actualPet);
+		verify(petTimedCache).get(1);
+		verify(logger).info("find pet by id {}", 1);
 	}
 }

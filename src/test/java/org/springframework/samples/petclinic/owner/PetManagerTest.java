@@ -149,5 +149,8 @@ class PetManagerTest {
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
 		when(owner.getPets()).thenReturn(pets);
 		assertEquals(petManager.getOwnerPetTypes(OWNER_ID), petTypes);
+		verify(ownerRepository).findById(OWNER_ID);
+		verify(owner).getPets();
+		verify(logger).info("finding the owner's petTypes by id {}", OWNER_ID);
 	}
 }

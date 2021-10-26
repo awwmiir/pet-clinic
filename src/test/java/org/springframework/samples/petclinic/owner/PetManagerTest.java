@@ -9,6 +9,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.samples.petclinic.utility.SimpleDI;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -26,12 +30,16 @@ class PetManagerTest {
 	private PetManager petManager;
 	private PetType dog, cat, mouse;
 	private Pet spike, tom, jerry;
+	private List<Pet> pets;
+	private List<PetType> petTypes;
 
 	@BeforeEach
 	void setUp(){
 		petManager = new PetManager(petTimedCache, ownerRepository, logger);
 		setUpTypes();
 		setUpPets();
+		pets = Arrays.asList(tom, spike, jerry);
+		petTypes = Arrays.asList(cat, dog, mouse);
 	}
 
 	void setUpTypes(){
@@ -122,6 +130,12 @@ class PetManagerTest {
 		verify(petTimedCache).save(expectedPet);
 	}
 
-
-
+	@Test
+	void Owner_pets_are_returned_correctly(){
+		when(owner.getPets()).thenReturn(pets);
+		when(ownerRepository.findById(1)).thenReturn(owner);
+		assertEquals(petManager.getOwnerPets(1), pets);
+		verify(ownerRepository).findById(1);
+		verify(owner).getPets();
+	}
 }

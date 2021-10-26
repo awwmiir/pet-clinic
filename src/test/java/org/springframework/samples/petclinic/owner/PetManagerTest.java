@@ -22,10 +22,36 @@ class PetManagerTest {
 	@MockBean
 	private Owner owner;
 	private PetManager petManager;
+	private PetType dog, cat, mouse;
+	private Pet spike, tom, jerry;
 
 	@BeforeEach
 	void setUp(){
 		petManager = new PetManager(petTimedCache, ownerRepository, logger);
+		setUpTypes();
+		setUpPets();
+	}
+
+	void setUpTypes(){
+		dog = new PetType();
+		dog.setName("dog");
+
+		cat = new PetType();
+		cat.setName("cat");
+
+		mouse = new PetType();
+		mouse.setName("mouse");
+	}
+
+	void setUpPets(){
+		spike = new Pet();
+		spike.setType(dog);
+
+		tom = new Pet();
+		tom.setType(cat);
+
+		jerry = new Pet();
+		jerry.setType(mouse);
 	}
 
 	@Test
@@ -82,4 +108,7 @@ class PetManagerTest {
 		verify(owner).addPet(expectedPet);
 		verify(petTimedCache).save(expectedPet);
 	}
+
+
+
 }

@@ -79,21 +79,33 @@ class PetManagerTest {
 		mouse = null;
 	}
 
+	/**
+	 * used: ownerRepository -> mock, petTimedCache and logger -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
+	 * State/Behavior: State Verification
+	*/
 	@Test
 	void Method_findOwner_returns_the_correct_owner_with_the_requested_id(){
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
-		Owner actualOwner = petManager.findOwner(OWNER_ID);
-		assertNotNull(actualOwner);
-		assertEquals(actualOwner, owner);
+		assertEquals(petManager.findOwner(OWNER_ID), owner);
 	}
 
+	/**
+	* used: TODO
+	* Mockisty/Classical: Mockisty
+	* State/Behavior: State Verification
+	 */
 	@Test
 	void Method_findOwner_is_returned_if_owner_with_given_id_is_not_found(){
-		assertNull(petManager.findOwner(OWNER_ID));
-		verify(ownerRepository).findById(OWNER_ID);
-		verify(logger).info("find owner {}", OWNER_ID);
+		Owner expectedOwner = petManager.findOwner(OWNER_ID);
+		assertNull(expectedOwner);
 	}
 
+	/**
+	 * used: owner and logger -> spy, petTimedCache and ownerRepository -> dummy for petManager
+	 * Mockisty/Classical: TODO
+	 * State/Behavior: Behavior Verification
+	 */
 	@Test
 	void New_pet_is_created_and_is_owned_by_expected_owner(){
 		Pet expectedPet = petManager.newPet(owner);
@@ -102,6 +114,11 @@ class PetManagerTest {
 
 	}
 
+	/**
+	 * used petTimedCache -> mock, ownerRepository and logger -> dummy for petManager
+	 * Mockisty/Classical: TODO
+	 * State/Behavior: State Verification
+	 */
 	@Test
 	void Method_findPet_returns_the_correct_pet_with_given_id(){
 		Pet expectedPet = new Pet();
@@ -111,14 +128,22 @@ class PetManagerTest {
 		assertEquals(actualPet, expectedPet);
 	}
 
+	/**
+	 * used: TODO
+	 * Mockisty/Classical: TODO
+	 * State/Behavior: State Verification
+	 */
 	@Test
 	void Method_findPet_returns_Null_if_pet_with_given_id_is_not_found(){
 		Pet actualPet = petManager.findPet(PET_ID);
 		assertNull(actualPet);
-		verify(petTimedCache).get(PET_ID);
-		verify(logger).info("find pet by id {}", PET_ID);
 	}
 
+	/**
+	 * used: expectedPet -> mock, logger and owner and petTimedCache -> spy, ownerRepository -> dummy for petManager
+	 * Mockisty/Classical: TODO
+	 * State/Behavior: Behavior Verification
+	 */
 	@Test
 	void Pet_is_saved_in_cache_and_is_owned_by_owner(){
 		Pet expectedPet = mock(Pet.class);
@@ -129,6 +154,9 @@ class PetManagerTest {
 		verify(petTimedCache).save(expectedPet);
 	}
 
+	/**
+	 *
+	 */
 	@Test
 	void Owner_pets_are_returned_correctly(){
 		when(owner.getPets()).thenReturn(pets);

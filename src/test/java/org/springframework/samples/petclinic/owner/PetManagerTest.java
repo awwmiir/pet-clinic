@@ -9,9 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.samples.petclinic.utility.SimpleDI;
+import org.springframework.samples.petclinic.visit.Visit;
 
+import java.time.LocalDate;
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -203,5 +206,17 @@ class PetManagerTest {
 		assertThrows(NullPointerException.class, () ->
 			petManager.getOwnerPetTypes(OWNER_ID)
 		);
+	}
+
+	@Test
+	void Method_getVisits_Between_returns_visits_correctly(){
+		Visit visit = mock(Visit.class);
+		when(visit.getDate()).thenReturn(LocalDate.parse("2020-02-01"));
+		tom.addVisit(visit);
+		when(petTimedCache.get(PET_ID)).thenReturn(tom);
+		assertThat(petManager.getVisitsBetween(PET_ID, LocalDate.parse("2020-01-01"), LocalDate.parse("2020-03-01")))
+			.isNotNull()
+			.hasSize(1)
+			.contains(visit);
 	}
 }

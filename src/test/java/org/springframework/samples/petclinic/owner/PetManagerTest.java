@@ -159,7 +159,7 @@ class PetManagerTest {
 
 	/**
 	 * used: owner and ownerRepository -> mock, logger and petTimedCache -> dummy for petManager
-	 * Mockisty/Classical:
+	 * Mockisty/Classical: TODO
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -174,7 +174,7 @@ class PetManagerTest {
 
 	/**
 	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
-	 * Mockisty/Classical:
+	 * Mockisty/Classical: TODO
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -186,7 +186,7 @@ class PetManagerTest {
 
 	/**
 	 * used: owner and ownerRepository -> mock, logger and petTimedCache -> dummy for petManager
-	 * Mockisty/Classical:
+	 * Mockisty/Classical: TODO
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -198,7 +198,7 @@ class PetManagerTest {
 
 	/**
 	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
-	 * Mockisty/Classical:
+	 * Mockisty/Classical: TODO
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -208,6 +208,11 @@ class PetManagerTest {
 		);
 	}
 
+	/**
+	 * used: logger and ownerRepository -> dummy for petManager, petTimedCache and visit -> mock
+	 * Mockisty/Classical: TODO
+	 * State/Behavior: State Verification
+	 */
 	@Test
 	void Method_getVisitsBetween_returns_visits_correctly(){
 		Visit visit = mock(Visit.class);
@@ -220,6 +225,11 @@ class PetManagerTest {
 			.contains(visit);
 	}
 
+	/**
+	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
+	 * Mockisty/Classical: TODO
+	 * State/Behavior: State Verification
+	 */
 	@Test
 	void Method_getVisitsBetween_throws_NullPointerException_when_pet_is_not_found(){
 		assertThrows(NullPointerException.class, () ->

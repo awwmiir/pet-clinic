@@ -83,7 +83,7 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: ownerRepository -> mock, petTimedCache and logger -> dummy for petManager
+	 * used: ownerRepository -> stub, petTimedCache and logger -> dummy for petManager
 	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: State Verification
 	*/
@@ -94,7 +94,7 @@ class PetManagerTest {
 	}
 
 	/**
-	* used: TODO
+	* used: ownerRepository -> stub, petTimedCache and logger -> dummy for petManager
 	* Mockisty/Classical: Mockisty
 	* State/Behavior: State Verification
 	 */
@@ -106,7 +106,7 @@ class PetManagerTest {
 
 	/**
 	 * used: owner and logger -> spy, petTimedCache and ownerRepository -> dummy for petManager
-	 * Mockisty/Classical: TODO
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: Behavior Verification
 	 */
 	@Test
@@ -118,8 +118,8 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used petTimedCache -> mock, ownerRepository and logger -> dummy for petManager
-	 * Mockisty/Classical: TODO
+	 * used petTimedCache -> stub, ownerRepository and logger -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -132,8 +132,8 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: TODO
-	 * Mockisty/Classical: TODO
+	 * used: petTimedCache -> stub, ownerRepository and logger -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -143,8 +143,8 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: expectedPet -> mock, logger and owner and petTimedCache -> spy, ownerRepository -> dummy for petManager
-	 * Mockisty/Classical: TODO
+	 * used: expectedPet -> stub, logger and owner and petTimedCache -> spy, ownerRepository -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: Behavior Verification
 	 */
 	@Test
@@ -158,8 +158,8 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: owner and ownerRepository -> mock, logger and petTimedCache -> dummy for petManager
-	 * Mockisty/Classical: TODO
+	 * used: owner and ownerRepository -> stub, logger and petTimedCache -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -171,8 +171,8 @@ class PetManagerTest {
 
 	/**
 	 * used: owner and ownerRepository and logger -> spy, petTimedCache -> dummy for petManager
-	 * Mockisty/Classical: TODO
-	 * State/Behavior: State Verification
+	 * Mockisty/Classical: Mockisty
+	 * State/Behavior: Behavior Verification
 	 */
 	@Test
 	void Owner_pets_are_returned_correctly_using_behavior_verification() {
@@ -185,8 +185,8 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
-	 * Mockisty/Classical: TODO
+	 * used: ownerRepository -> stub, logger and petTimedCache -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -197,8 +197,8 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: owner and ownerRepository -> mock, logger and petTimedCache -> dummy for petManager
-	 * Mockisty/Classical: TODO
+	 * used: owner and ownerRepository -> stub, logger and petTimedCache -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -209,9 +209,9 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
-	 * Mockisty/Classical: TODO
-	 * State/Behavior: State Verification
+	 * used: ownerRepository -> stub, logger and petTimedCache -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
+	 * State/Behavior: Behavior Verification
 	 */
 	@Test
 	void Null_pointer_exception_is_thrown_if_owner_does_not_exist_to_get_owners_pet_types(){
@@ -221,8 +221,8 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: logger and ownerRepository -> dummy for petManager, petTimedCache and visit -> mock
-	 * Mockisty/Classical: TODO
+	 * used: logger and ownerRepository -> dummy for petManager, petTimedCache and visit -> stub
+	 * Mockisty/Classical: Mockisty
 	 * State/Behavior: State Verification
 	 */
 	@Test
@@ -238,9 +238,9 @@ class PetManagerTest {
 	}
 
 	/**
-	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
-	 * Mockisty/Classical: TODO
-	 * State/Behavior: State Verification
+	 * used: petTimedCache -> stub, logger and ownerRepository -> dummy for petManager
+	 * Mockisty/Classical: Mockisty
+	 * State/Behavior: Behavior Verification
 	 */
 	@Test
 	void Method_getVisitsBetween_throws_NullPointerException_when_pet_is_not_found(){

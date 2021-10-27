@@ -155,18 +155,25 @@ class PetManagerTest {
 	}
 
 	/**
-	 *
+	 * used: owner and ownerRepository -> mock, logger and petTimedCache -> dummy for petManager
+	 * Mockisty/Classical:
+	 * State/Behavior: State Verification
 	 */
 	@Test
-	void Owner_pets_are_returned_correctly(){
+	void Owner_pets_are_returned_correctly_using_state_verification(){
 		when(owner.getPets()).thenReturn(pets);
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
 		assertEquals(petManager.getOwnerPets(OWNER_ID), pets);
-		verify(ownerRepository).findById(OWNER_ID);
-		verify(owner).getPets();
-		verify(logger).info("finding the owner's pets by id {}", OWNER_ID);
+//		verify(ownerRepository).findById(OWNER_ID);
+//		verify(owner).getPets();
+//		verify(logger).info("finding the owner's pets by id {}", OWNER_ID);
 	}
 
+	/**
+	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
+	 * Mockisty/Classical:
+	 * State/Behavior: State Verification
+	 */
 	@Test
 	void Null_pointer_exception_is_thrown_if_owner_does_not_exist_to_get_owners_pets(){
 		assertThrows(NullPointerException.class, () ->
@@ -174,16 +181,23 @@ class PetManagerTest {
 		);
 	}
 
+	/**
+	 * used: owner and ownerRepository -> mock, logger and petTimedCache -> dummy for petManager
+	 * Mockisty/Classical:
+	 * State/Behavior: State Verification
+	 */
 	@Test
 	void Owner_pet_types_are_returned_correctly(){
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
 		when(owner.getPets()).thenReturn(pets);
 		assertEquals(petManager.getOwnerPetTypes(OWNER_ID), petTypes);
-		verify(ownerRepository).findById(OWNER_ID);
-		verify(owner).getPets();
-		verify(logger).info("finding the owner's petTypes by id {}", OWNER_ID);
 	}
 
+	/**
+	 * used: logger and petTimedCache and ownerRepository -> dummy for petManager
+	 * Mockisty/Classical:
+	 * State/Behavior: State Verification
+	 */
 	@Test
 	void Null_pointer_exception_is_thrown_if_owner_does_not_exist_to_get_owners_pet_types(){
 		assertThrows(NullPointerException.class, () ->

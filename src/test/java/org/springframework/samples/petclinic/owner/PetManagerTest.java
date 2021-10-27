@@ -167,9 +167,21 @@ class PetManagerTest {
 		when(owner.getPets()).thenReturn(pets);
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
 		assertEquals(petManager.getOwnerPets(OWNER_ID), pets);
-//		verify(ownerRepository).findById(OWNER_ID);
-//		verify(owner).getPets();
-//		verify(logger).info("finding the owner's pets by id {}", OWNER_ID);
+	}
+
+	/**
+	 * used: owner and ownerRepository and logger -> spy, petTimedCache -> dummy for petManager
+	 * Mockisty/Classical: TODO
+	 * State/Behavior: State Verification
+	 */
+	@Test
+	void Owner_pets_are_returned_correctly_using_behavior_verification() {
+		when(owner.getPets()).thenReturn(pets);
+		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
+		petManager.getOwnerPets(OWNER_ID);
+		verify(ownerRepository).findById(OWNER_ID);
+		verify(owner).getPets();
+		verify(logger).info("finding the owner's pets by id {}", OWNER_ID);
 	}
 
 	/**

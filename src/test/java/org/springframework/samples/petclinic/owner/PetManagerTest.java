@@ -85,8 +85,6 @@ class PetManagerTest {
 		Owner actualOwner = petManager.findOwner(OWNER_ID);
 		assertNotNull(actualOwner);
 		assertEquals(actualOwner, owner);
-		verify(ownerRepository).findById(OWNER_ID);
-		verify(logger).info("find owner {}", OWNER_ID);
 	}
 
 	@Test
@@ -99,7 +97,6 @@ class PetManagerTest {
 	@Test
 	void New_pet_is_created_and_is_owned_by_expected_owner(){
 		Pet expectedPet = petManager.newPet(owner);
-		assertNotNull(expectedPet);
 		verify(owner).addPet(expectedPet);
 		verify(logger).info("add pet for owner {}", owner.getId());
 
@@ -112,8 +109,6 @@ class PetManagerTest {
 		Pet actualPet = petManager.findPet(PET_ID);
 		assertNotNull(actualPet);
 		assertEquals(actualPet, expectedPet);
-		verify(petTimedCache).get(PET_ID);
-		verify(logger).info("find pet by id {}", PET_ID);
 	}
 
 	@Test
@@ -145,6 +140,13 @@ class PetManagerTest {
 	}
 
 	@Test
+	void Null_pointer_exception_is_thrown_if_owner_does_not_exist_to_get_owners_pets(){
+		assertThrows(NullPointerException.class, () ->
+			petManager.getOwnerPets(OWNER_ID)
+		);
+	}
+
+	@Test
 	void Owner_pet_types_are_returned_correctly(){
 		when(ownerRepository.findById(OWNER_ID)).thenReturn(owner);
 		when(owner.getPets()).thenReturn(pets);
@@ -152,5 +154,12 @@ class PetManagerTest {
 		verify(ownerRepository).findById(OWNER_ID);
 		verify(owner).getPets();
 		verify(logger).info("finding the owner's petTypes by id {}", OWNER_ID);
+	}
+
+	@Test
+	void Null_pointer_exception_is_thrown_if_owner_does_not_exist_to_get_owners_pet_types(){
+		assertThrows(NullPointerException.class, () ->
+			petManager.getOwnerPetTypes(OWNER_ID)
+		);
 	}
 }

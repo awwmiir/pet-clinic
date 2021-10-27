@@ -209,7 +209,7 @@ class PetManagerTest {
 	}
 
 	@Test
-	void Method_getVisits_Between_returns_visits_correctly(){
+	void Method_getVisitsBetween_returns_visits_correctly(){
 		Visit visit = mock(Visit.class);
 		when(visit.getDate()).thenReturn(LocalDate.parse("2020-02-01"));
 		tom.addVisit(visit);
@@ -218,5 +218,12 @@ class PetManagerTest {
 			.isNotNull()
 			.hasSize(1)
 			.contains(visit);
+	}
+
+	@Test
+	void Method_getVisitsBetween_throws_NullPointerException_when_pet_is_not_found(){
+		assertThrows(NullPointerException.class, () ->
+			petManager.getVisitsBetween(PET_ID, LocalDate.parse("2020-01-01"), LocalDate.parse("2020-03-01"))
+		);
 	}
 }

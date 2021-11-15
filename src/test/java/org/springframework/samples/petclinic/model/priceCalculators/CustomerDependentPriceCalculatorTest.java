@@ -7,7 +7,7 @@ import org.springframework.samples.petclinic.model.UserType;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 public class CustomerDependentPriceCalculatorTest {
 
@@ -26,7 +26,8 @@ public class CustomerDependentPriceCalculatorTest {
 		this.setUp();
 		assertEquals(
 			0,
-			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.NEW));
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.NEW),
+			0.0);
 	}
 
 	@Test
@@ -34,14 +35,16 @@ public class CustomerDependentPriceCalculatorTest {
 		this.setUp();
 		assertEquals(
 			0,
-			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.SILVER));
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.SILVER),
+			0.0);
 	}
 
 	@Test
 	public void goldUsersWithEmptyListAreChargedWithBaseCharge(){
 		this.setUp();
 		assertEquals(
-			BASE_CHARGE.doubleValue(),
-			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD));
+			BASE_CHARGE,
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD),
+			0.0);
 	}
 }

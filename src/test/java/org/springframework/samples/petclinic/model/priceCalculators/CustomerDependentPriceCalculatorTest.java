@@ -110,4 +110,22 @@ public class CustomerDependentPriceCalculatorTest {
 			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.NEW),
 			0.1);
 	}
+
+	@Test
+	public void basePricePerPetMultipliedByRareCoefficientIsUsedForRarePetsAndTotalPriceIsAddedToTheBaseChargeAndMultipliedByDiscountRateForSilverUsersWithEnoughDiscountScore(){
+		this.setUp();
+		assertEquals(46.8,
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.SILVER),
+			0.1);
+	}
+
+	@Test
+	public void basePricePerPetMultipliedByRareCoefficientIsUsedForRarePetsAndTotalPriceIsMultipliedByDiscountRatePlusBaseChargeForGoldUsersWithNotEnoughDiscountScore(){
+		this.setUp();
+		pets.remove(4);
+		assertEquals(36.88,
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD),
+			0.1);
+	}
+
 }

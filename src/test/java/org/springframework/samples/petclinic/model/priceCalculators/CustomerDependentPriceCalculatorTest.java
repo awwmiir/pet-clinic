@@ -95,7 +95,19 @@ public class CustomerDependentPriceCalculatorTest {
 	}
 
 	@Test
-	public void basePricePerPetMultipliedByRareCoefficientIsUsedForRarePetsAndDiscountedForNewUsersWithEnoughDiscountScore(){
+	public void basePricePerPetMultipliedByRareCoefficientIsUsedForRarePetsAndTotalPriceIsMultipliedByDiscountRatePlusBaseChargeForNewUsersWithEnoughDiscountScore(){
+		this.setUp();
+		assertEquals(49.9,
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.NEW),
+			0.1);
+	}
 
+	@Test
+	public void basePricePerPetIsUsedForCommonPetsAndTotalPriceForNewUsersWithNotEnoughDiscountScore(){
+		this.setUp();
+		when(petType.getRare()).thenReturn(false);
+		assertEquals(30.0,
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.NEW),
+			0.1);
 	}
 }

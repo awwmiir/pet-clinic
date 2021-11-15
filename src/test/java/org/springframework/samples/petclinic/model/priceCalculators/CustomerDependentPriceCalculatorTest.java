@@ -18,7 +18,7 @@ public class CustomerDependentPriceCalculatorTest {
 
 	private CustomerDependentPriceCalculator customerDependentPriceCalculator;
 	private List<Pet> pets;
-	private Date birthDate;
+	private Date birthDateNotInfant, birthDateInfant;
 	private Pet pet1, pet2, pet3, pet4, pet5;
 	private PetType petType;
 
@@ -29,30 +29,42 @@ public class CustomerDependentPriceCalculatorTest {
 		petType = mock(PetType.class);
 		when(petType.getRare()).thenReturn(true);
 		pets = new ArrayList<>();
-		birthDate = new Calendar.Builder()
+		birthDateNotInfant = new Calendar.Builder()
 			.setDate(2017, 1, 1)
+			.build()
+			.getTime();
+
+		birthDateInfant = new Calendar.Builder()
+			.setDate(2020, 1, 1)
 			.build()
 			.getTime();
 
 		pet1 = new Pet();
 		pet1.setType(petType);
-		pet1.setBirthDate(birthDate);
+		pet1.setBirthDate(birthDateInfant);
 
 		pet2 = new Pet();
 		pet2.setType(petType);
-		pet2.setBirthDate(birthDate);
+		pet2.setBirthDate(birthDateInfant);
 
 		pet3 = new Pet();
 		pet3.setType(petType);
-		pet3.setBirthDate(birthDate);
+		pet3.setBirthDate(birthDateInfant);
 
 		pet4 = new Pet();
 		pet4.setType(petType);
-		pet4.setBirthDate(birthDate);
+		pet4.setBirthDate(birthDateInfant);
 
 		pet5 = new Pet();
 		pet5.setType(petType);
-		pet5.setBirthDate(birthDate);
+		pet5.setBirthDate(birthDateInfant);
+
+		pets.add(pet1);
+		pets.add(pet2);
+		pets.add(pet3);
+		pets.add(pet4);
+		pets.add(pet5);
+
 	}
 
 	@Test
@@ -60,7 +72,7 @@ public class CustomerDependentPriceCalculatorTest {
 		this.setUp();
 		assertEquals(
 			0,
-			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.NEW),
+			customerDependentPriceCalculator.calcPrice(new ArrayList<>(), BASE_CHARGE, BASE_PRICE_PER_PET, UserType.NEW),
 			0.0);
 	}
 
@@ -69,7 +81,7 @@ public class CustomerDependentPriceCalculatorTest {
 		this.setUp();
 		assertEquals(
 			0,
-			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.SILVER),
+			customerDependentPriceCalculator.calcPrice(new ArrayList<>(), BASE_CHARGE, BASE_PRICE_PER_PET, UserType.SILVER),
 			0.0);
 	}
 
@@ -78,9 +90,12 @@ public class CustomerDependentPriceCalculatorTest {
 		this.setUp();
 		assertEquals(
 			BASE_CHARGE,
-			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD),
+			customerDependentPriceCalculator.calcPrice(new ArrayList<>(), BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD),
 			0.0);
 	}
 
+	@Test
+	public void basePricePerPetMultipliedByRareCoefficientIsUsedForRarePetsAndDiscountedForNewUsersWithEnoughDiscountScore(){
 
+	}
 }

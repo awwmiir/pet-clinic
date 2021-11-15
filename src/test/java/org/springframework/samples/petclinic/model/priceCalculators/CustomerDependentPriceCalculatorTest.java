@@ -128,4 +128,20 @@ public class CustomerDependentPriceCalculatorTest {
 			0.1);
 	}
 
+	@Test
+	public void basePricePerPetMultipliedByRareCoefficientIsUsedForRarePetsAndDiscountRateIsIncreasedByOneIfPetIsNotRareTotalPriceIsMultipliedByDiscountRatePlusBaseChargeForGoldUsersWithNotEnoughDiscountScore(){
+		this.setUp();
+		PetType petType1 = mock(PetType.class);
+		when(petType1.getRare()).thenReturn(false);
+		Pet newPet = new Pet();
+		newPet.setBirthDate(birthDateInfant);
+		newPet.setType(petType1);
+		pets.add(newPet);
+
+		pets.remove(4);
+		assertEquals(41.64,
+			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD),
+			0.1);
+	}
+
 }

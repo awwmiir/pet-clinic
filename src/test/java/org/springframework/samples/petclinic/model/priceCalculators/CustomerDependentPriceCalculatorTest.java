@@ -131,15 +131,12 @@ public class CustomerDependentPriceCalculatorTest {
 	@Test
 	public void basePricePerPetMultipliedByRareCoefficientIsUsedForRarePetsAndDiscountRateIsIncreasedByOneIfPetIsNotRareTotalPriceIsMultipliedByDiscountRatePlusBaseChargeForGoldUsersWithNotEnoughDiscountScore(){
 		this.setUp();
-		PetType petType1 = mock(PetType.class);
-		when(petType1.getRare()).thenReturn(false);
 		Pet newPet = new Pet();
-		newPet.setBirthDate(birthDateInfant);
-		newPet.setType(petType1);
-		pets.add(newPet);
-
+		newPet.setBirthDate(birthDateNotInfant);
+		newPet.setType(petType);
 		pets.remove(4);
-		assertEquals(41.64,
+		pets.add(newPet);
+		assertEquals(41.68,
 			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD),
 			0.1);
 	}

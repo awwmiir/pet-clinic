@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CustomerDependentPriceCalculatorTest {
 
@@ -24,7 +26,8 @@ public class CustomerDependentPriceCalculatorTest {
 
 	void setUp(){
 		customerDependentPriceCalculator = new CustomerDependentPriceCalculator();
-		petType = new PetType();
+		petType = mock(PetType.class);
+		when(petType.getRare()).thenReturn(true);
 		pets = new ArrayList<>();
 		birthDate = new Calendar.Builder()
 			.setDate(2017, 1, 1)
@@ -78,4 +81,6 @@ public class CustomerDependentPriceCalculatorTest {
 			customerDependentPriceCalculator.calcPrice(pets, BASE_CHARGE, BASE_PRICE_PER_PET, UserType.GOLD),
 			0.0);
 	}
+
+
 }

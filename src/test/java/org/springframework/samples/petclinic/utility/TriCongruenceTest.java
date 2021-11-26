@@ -134,11 +134,11 @@ class TriCongruenceTest {
 			@Valuation(clause = 'x', valuation = false),
 			@Valuation(clause = 'y', valuation = false)
 		})
-	@NearFalsePoint(
-		predicate = "x + y", dnf = "x + y", implicant = "x", clause = 'x', valuations = {
+	@CACC(
+		predicate = "x + y", majorClause = 'x', valuations = {
 		@Valuation(clause = 'x', valuation = false),
 		@Valuation(clause = 'y', valuation = false)
-	})
+	}, predicateValue = false)
 	@Test
 	public void trianglesAreCongruentWhenSmallestSideIsPositiveAndSumOfSmallestAndMiddleSidesAreLargerThanLargestSide(){
 		Triangle t1 = new Triangle(10, 8, 6);
@@ -157,11 +157,11 @@ class TriCongruenceTest {
 	 * then when y is the major clause and y is False, x should be False too
 	 * x = False -> a1 >= 0
 	 */
-	@NearFalsePoint(
-		predicate = "x + y", dnf = "x + y", implicant = "y", clause = 'y', valuations = {
+	@CACC(
+		predicate = "x + y", majorClause = 'y', valuations = {
 		@Valuation(clause = 'x', valuation = false),
 		@Valuation(clause = 'y', valuation = false)
-	})
+	}, predicateValue = false)
 	@Test
 	public void trianglesAreCongruentWhenSmallestSideIsPositiveAndSumOfSmallestAndMiddleSidesAreLargerThanLargestSideWithSecondClauseAsMajorClause(){
 		Triangle t1 = new Triangle(3, 4, 5);
@@ -180,11 +180,11 @@ class TriCongruenceTest {
 	 * then when y is the major clause and y is True, x should be False
 	 * x = False -> a1 >= 0
 	 */
-	@NearFalsePoint(
-		predicate = "x + y", dnf = "x + y", implicant = "y", clause = 'y', valuations = {
+	@CACC(
+		predicate = "x + y", majorClause = 'y', valuations = {
 		@Valuation(clause = 'x', valuation = false),
 		@Valuation(clause = 'y', valuation = true)
-	})
+	}, predicateValue = true)
 	@Test
 	public void trianglesAreNotCongruentWhenSmallestSideIsPositiveButSumOfSmallestAndMiddleSidesAreLessThanLargestSideWithSecondClauseAsMajorClause(){
 		Triangle t1 = new Triangle(3, 4, 8);

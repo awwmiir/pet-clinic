@@ -21,13 +21,13 @@ class TriCongruenceTest {
 		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
 		Assertions.assertFalse(areCongruent);
 	}
-	/**
-	 * for the 3 following tests we have:
+	/*
+	 * for the following CUTPNFP tests we have:
 	 * p = (a1 != a2) || (b1 != b2) || (c1 != c2)
 	 * p = x + y + z [DNF]
 	 */
 
-	/**
+	/*
 	 * x = True, y = False and z = False
   	 * a1 != a2,
   	 * b1 = b2
@@ -42,7 +42,7 @@ class TriCongruenceTest {
 		Assertions.assertFalse(areCongruent);
 	}
 
-	/**
+	/*
 	 * x = False, y = True and z = False
 	 * a1 = a2
 	 * b1 != b2
@@ -57,12 +57,12 @@ class TriCongruenceTest {
 		Assertions.assertFalse(areCongruent);
 	}
 
-	/**
+	/*
 	 * x = False, y = False and z = True
 	 * a1 = a2
 	 * b1 = b2
 	 * c1 != c2
-	 * */
+	 */
 	@Test
 	public void trianglesAreNotCongruentWhenTheirLargestSidesAreNotEqualAndTheOtherTwoSidesAreEqual(){
 		Triangle t1 = new Triangle(9, 8, 6);
@@ -72,6 +72,39 @@ class TriCongruenceTest {
 		Assertions.assertFalse(areCongruent);
 	}
 
+	/*
+	 * for the following test we have:
+	 * p = (a1 < 0) || (a1 + b1 < c1)
+	 * p = x || y
+	*/
+
+	/*
+	 * Clause Coverage
+	 * x = True -> a1 < 0
+	 * y = True -> a1 + b1 < c1
+	*/
+	@Test
+	public void trianglesAreNotCongruentWhenTheirSmallestSideIsNegative(){
+		Triangle t1 = new Triangle(9, 8, -1);
+		Triangle t2 = new Triangle(-1, 6, 10);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
+	/*
+	 * Clause Coverage
+	 * x = False -> a1 >= 0
+	 * y = True -> a1 + b1 < c1
+	 */
+	@Test
+	public void trianglesAreNotCongruentWhenSumOfSmallestAndMiddleSidesAreLessThanLargestSide(){
+		Triangle t1 = new Triangle(15, 8, 6);
+		Triangle t2 = new Triangle(3, 6, 10);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
 	/**
 	 * TODO
 	 * explain your answer here

@@ -201,6 +201,7 @@ class TriCongruenceTest {
 	 * UTPC TR = {TTFFF, FFTTT, FTFTT, FTTFT, TFFTT, TFTFT}
 	 * CUTPNFP TR = {TTFTT, TFFTT, FTFTT, FTTTT, FTTFT}
 	 * as you can see the test requirements of CUTPNFP has 5 members and test requirements of UTPC has 6 members
+	 * so CUTPNFP doesn't subsume UTPC
 	 */
 	private static boolean questionTwo(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		boolean predicate = false;

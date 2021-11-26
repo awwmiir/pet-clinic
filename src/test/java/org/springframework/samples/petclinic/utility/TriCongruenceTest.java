@@ -195,12 +195,16 @@ class TriCongruenceTest {
 	}
 
 	/**
-	 * TODO
-	 * explain your answer here
+	 * DNF = = ab + cd
+	 * p UTPs = {TTFFF, FFTTT}
+	 * !p UTPs = {FTFTT, FTTFT, TFFTT, TFTFT}
+	 * UTPC TR = {TTFFF, FFTTT, FTFTT, FTTFT, TFFTT, TFTFT}
+	 * CUTPNFP TR = {TTFTT, TFFTT, FTFTT, FTTTT, FTTFT}
+	 * as you can see the test requirements of CUTPNFP has 5 members and test requirements of UTPC has 6 members
 	 */
 	private static boolean questionTwo(boolean a, boolean b, boolean c, boolean d, boolean e) {
 		boolean predicate = false;
-//		predicate = a predicate with any number of clauses
+		predicate = (a && b) || (c && d && e) || (c && d && !e);
 		return predicate;
 	}
 }

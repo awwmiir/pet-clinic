@@ -22,6 +22,33 @@ class TriCongruenceTest {
 		Assertions.assertFalse(areCongruent);
 	}
 
+	@Test
+	public void trianglesAreNotCongruentWhenTheirSmallestSidesAreNotEqualAndTheOtherTwoSidesAreEqual(){
+		Triangle t1 = new Triangle(10, 8, 6);
+		Triangle t2 = new Triangle(8, 7, 10);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
+	@Test
+	public void trianglesAreNotCongruentWhenTheirMiddleSidesAreNotEqualAndTheOtherTwoSidesAreEqual(){
+		Triangle t1 = new Triangle(10, 7, 6);
+		Triangle t2 = new Triangle(8, 6, 10);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
+	@Test
+	public void trianglesAreNotCongruentWhenTheirLargestSidesAreNotEqualAndTheOtherTwoSidesAreEqual(){
+		Triangle t1 = new Triangle(9, 8, 6);
+		Triangle t2 = new Triangle(8, 6, 10);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
 	/**
 	 * TODO
 	 * explain your answer here

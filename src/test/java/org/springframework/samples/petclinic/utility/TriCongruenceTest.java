@@ -86,7 +86,7 @@ class TriCongruenceTest {
 	@Test
 	public void trianglesAreNotCongruentWhenTheirSmallestSideIsNegative(){
 		Triangle t1 = new Triangle(9, 8, -1);
-		Triangle t2 = new Triangle(-1, 6, 10);
+		Triangle t2 = new Triangle(-1, 8, 9);
 		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
 		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
 		Assertions.assertFalse(areCongruent);
@@ -100,7 +100,7 @@ class TriCongruenceTest {
 	@Test
 	public void trianglesAreNotCongruentWhenSmallestSideIsPositiveButSumOfSmallestAndMiddleSidesAreLessThanLargestSide(){
 		Triangle t1 = new Triangle(15, 8, 6);
-		Triangle t2 = new Triangle(3, 6, 10);
+		Triangle t2 = new Triangle(8, 6, 15);
 		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
 		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
 		Assertions.assertFalse(areCongruent);

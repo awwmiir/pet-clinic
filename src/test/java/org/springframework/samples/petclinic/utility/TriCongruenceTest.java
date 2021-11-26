@@ -98,13 +98,72 @@ class TriCongruenceTest {
 	 * y = True -> a1 + b1 < c1
 	 */
 	@Test
-	public void trianglesAreNotCongruentWhenSumOfSmallestAndMiddleSidesAreLessThanLargestSide(){
+	public void trianglesAreNotCongruentWhenSmallestSideIsPositiveButSumOfSmallestAndMiddleSidesAreLessThanLargestSide(){
 		Triangle t1 = new Triangle(15, 8, 6);
 		Triangle t2 = new Triangle(3, 6, 10);
 		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
 		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
 		Assertions.assertFalse(areCongruent);
 	}
+
+	/*
+	 * Clause Coverage
+	 * x = False -> a1 >= 0
+	 * y = False -> a1 + b1 >= c1
+	 *
+	 * Correlated Active Clause Coverage
+	 * Major Clause is x
+	 * x = False -> a1 >= 0
+	 * when x is False then p should be False
+	 * and when x is True then p should be True
+	 * then when x is the major clause and x is False, y should be False too
+	 * y = False -> a1 + b1 >= c1
+	 */
+	@Test
+	public void trianglesAreCongruentWhenSmallestSideIsPositiveAndSumOfSmallestAndMiddleSidesAreLargerThanLargestSide(){
+		Triangle t1 = new Triangle(10, 8, 6);
+		Triangle t2 = new Triangle(8, 6, 10);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertTrue(areCongruent);
+	}
+
+	/*
+	 * Correlated Active Clause Coverage
+	 * Major Clause is y
+	 * y = False -> a1 + b1 >= c1
+	 * when y is False then p should be False
+	 * and when y is True then p should be True
+	 * then when y is the major clause and y is False, x should be False too
+	 * x = False -> a1 >= 0
+	 */
+	@Test
+	public void trianglesAreCongruentWhenSmallestSideIsPositiveAndSumOfSmallestAndMiddleSidesAreLargerThanLargestSideWithSecondClauseAsMajorClause(){
+		Triangle t1 = new Triangle(3, 4, 5);
+		Triangle t2 = new Triangle(4, 5, 3);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertTrue(areCongruent);
+	}
+
+	/*
+	 * Correlated Active Clause Coverage
+	 * Major Clause is y
+	 * y = True -> a1 + b1 < c1
+	 * when y is True then p should be True
+	 * and when y is False then p should be False
+	 * then when y is the major clause and y is True, x should be False
+	 * x = False -> a1 >= 0
+	 */
+	@Test
+	public void trianglesAreNotCongruentWhenSmallestSideIsPositiveButSumOfSmallestAndMiddleSidesAreLessThanLargestSideWithSecondClauseAsMajorClause(){
+		Triangle t1 = new Triangle(3, 4, 8);
+		Triangle t2 = new Triangle(4, 8, 3);
+		boolean areCongruent = TriCongruence.areCongruent(t1, t2);
+		log.debug("Triangles identified as '{}'.", areCongruent ? "Congruent" : "Not Congruent");
+		Assertions.assertFalse(areCongruent);
+	}
+
 	/**
 	 * TODO
 	 * explain your answer here

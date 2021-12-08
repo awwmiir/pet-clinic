@@ -98,6 +98,30 @@ class PetControllerTests {
 	}
 
 	@Test
+	public void whenTheNewPetFieldsAreEmptySendToCreateOrUpdateForm() throws Exception{
+		ResultActions resultActions = mvc.perform(post(PREFIX + "pets/new")
+				.param("name", "")
+				.param("type", "")
+				.param("id", "")
+				.param("birthDate", "2019-11-18"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("pet"))
+			.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+	}
+
+	@Test
+	public void whenTheNewPetFieldsAreNotValidSendToCreateOrUpdateForm() throws Exception{
+		ResultActions resultActions = mvc.perform(post(PREFIX + "pets/new")
+				.param("name", "pet2")
+				.param("type", "cat")
+				.param("id", "")
+				.param("birthDate", "2019-11-18"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("pet"))
+			.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+	}
+
+	@Test
 	public void whenUpdatingAPetAndThePetIsFoundCreateOrUpdateFormIsReturned() throws Exception{
 		ResultActions resultActions = mvc.perform(get(PREFIX + "/pets/1/edit"))
 			.andExpect(status().isOk())

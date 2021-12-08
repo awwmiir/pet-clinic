@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.owner;
 
 import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,8 +53,11 @@ class PetControllerTests {
 		pet = new Pet();
 		pet.setName("Pet1");
 		pet.setType(dog);
+		pet.setId(1);
 		given(this.petRepository.findPetTypes()).willReturn(Lists.newArrayList(dog));
 		given(this.ownerRepository.findById(1)).willReturn(owner);
+		given(this.petRepository.findById(1)).willReturn(pet);
+
 	}
 
 	@Test
@@ -74,16 +81,20 @@ class PetControllerTests {
 				.andExpect(model().attributeDoesNotExist("pet"));
 	}
 
-//	@Test
-//	public void whenThereIsNoErrorsInBindingsNewPetIsAddedAndRedirectedToTheFirstPage1() throws Exception{
-//		owner.addPet(pet);
-//		ResultActions resultActions = mvc.perform(post(PREFIX + "pets/new")
-//				.param("name", "Pet1")
-//				.param("type", "dog")
-//				.param("id", "")
-//				.param("birthDate", "2019-11-18"))
-//				.andExpect(status().isOk())
-//				.andExpect(model().attributeExists("pet"));
-//	}
+	@Test
+	public void whenTheNewPetAlreadyExistsAndHasAnOwnerSendToCreateOrUpdateForm() throws Exception{
+		Set<Pet> petSet = new HashSet<>();
+		petSet.add(pet);
+		owner.setPetsInternal(petSet);
+
+		ResultActions resultActions = mvc.perform(post(PREFIX + "pets/new")
+				.param("name", "Pet1")
+				.param("type", "dog")
+				.param("id", "")
+				.param("birthDate", "2019-11-18"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("pet"))
+				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+	}
 
 }

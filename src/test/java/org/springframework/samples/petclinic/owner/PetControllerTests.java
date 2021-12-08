@@ -33,6 +33,9 @@ class PetControllerTests {
 	private OwnerRepository ownerRepository;
 	@MockBean
 	private PetRepository petRepository;
+
+	private static final String PREFIX = "/owners/1/";
+	private static final String CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 	private Owner owner;
 
 	@BeforeEach
@@ -43,9 +46,9 @@ class PetControllerTests {
 	@Test
 	public void createOrUpdateFormIsReturnedWhenOwnerExistsAndWantsToCreateNewPets() throws Exception{
 		given(ownerRepository.findById(1)).willReturn(owner);
-		ResultActions resultActions = mvc.perform(get("/owners/1/pets/new")
+		ResultActions resultActions = mvc.perform(get(PREFIX + "pets/new")
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(view().name("pets/createOrUpdatePetForm"));
+				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
 	}
 }

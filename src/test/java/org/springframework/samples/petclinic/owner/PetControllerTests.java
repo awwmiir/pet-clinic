@@ -97,4 +97,12 @@ class PetControllerTests {
 				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
 	}
 
+	@Test
+	public void whenUpdatingAPetAndThePetIsFoundCreateOrUpdateFormIsReturned() throws Exception{
+		ResultActions resultActions = mvc.perform(get(PREFIX + "/pets/1/edit"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("pet"))
+			.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+	}
+
 }

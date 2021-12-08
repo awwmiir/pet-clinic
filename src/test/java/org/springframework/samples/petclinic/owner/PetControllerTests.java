@@ -14,7 +14,9 @@ import org.springframework.samples.petclinic.utility.PetTimedCache;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -104,9 +106,9 @@ class PetControllerTests {
 				.param("type", "")
 				.param("id", "")
 				.param("birthDate", "2019-11-18"))
-			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("pet"))
-			.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("pet"))
+				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
 	}
 
 	@Test
@@ -116,17 +118,55 @@ class PetControllerTests {
 				.param("type", "cat")
 				.param("id", "")
 				.param("birthDate", "2019-11-18"))
-			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("pet"))
-			.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("pet"))
+				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
 	}
 
 	@Test
 	public void whenUpdatingAPetAndThePetIsFoundCreateOrUpdateFormIsReturned() throws Exception{
 		ResultActions resultActions = mvc.perform(get(PREFIX + "/pets/1/edit"))
-			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("pet"))
-			.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("pet"))
+				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
 	}
 
+
+	@Test
+	public void whenUpdatingAPetAndItsFieldsAreEmptySendToCreateOrUpdateForm() throws Exception{
+		ResultActions resultActions = mvc.perform(post(PREFIX + "/pets/1/edit")
+				.param("name", "")
+				.param("type", "")
+				.param("birthDate", "2019-11-18"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("pet"))
+				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+	}
+
+	@Test
+	public void whenUpdatingAPetAndItsFieldsAreNotValidSendToCreateOrUpdateForm() throws Exception{
+		ResultActions resultActions = mvc.perform(post(PREFIX + "/pets/1/edit")
+				.param("name", "pet2")
+				.param("type", "cat")
+				.param("birthDate", "2019-11-18"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("pet"))
+				.andExpect(view().name(CREATE_OR_UPDATE_FORM));
+	}
+
+	@Test
+	void WhenSuccessfullyUpdatedAPetRedirectToFirstPage() throws Exception{
+		PetType cat = new PetType();
+		cat.setName("cat");
+		List<PetType> petTypes = new ArrayList<>();
+		petTypes.add(dog);
+		petTypes.add(cat);
+		given(petRepository.findPetTypes()).willReturn(petTypes);
+		ResultActions resultActions = mvc.perform(post(PREFIX + "/pets/1/edit")
+				.param("name", "pet2")
+				.param("type", "cat")
+				.param("birthDate", "2019-11-18"))
+				.andExpect(status().is3xxRedirection());
+
+	}
 }

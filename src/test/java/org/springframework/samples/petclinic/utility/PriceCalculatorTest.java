@@ -64,10 +64,10 @@ public class PriceCalculatorTest {
 	}
 
 	@Test
-	void test(){
+	void testCalcPriceMethod(){
 		setUpVisits();
 		setUpPets();
-		assertEquals(7600107.6, PriceCalculator.calcPrice(petList, BASE_CHARGE, BASE_PRICE_PER_PET), DELTA);
+		assertEquals(7696227.6, PriceCalculator.calcPrice(petList, BASE_CHARGE, BASE_PRICE_PER_PET), DELTA);
 	}
 
 }

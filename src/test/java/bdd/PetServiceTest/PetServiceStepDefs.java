@@ -108,6 +108,15 @@ public class PetServiceStepDefs {
 	public void findOwnerWithExistingId(Integer id) {
 		foundOwner = petService.findOwner(id);
 	}
+	@When("owner requests to save pet in his pet list")
+	public void ownerSavesPet(){
+		petService.savePet(pet, owner);
+	}
+
+	@Then("the pet is saved in owners list correctly")
+	public void petIsSavedInOwnersListCorrectly(){
+		assertEquals(petTimedCache.get(pet.getId()).toString(), pet.toString());
+	}
 
 	@Then("expected owner is found correctly")
 	public void ownerIsFound() {

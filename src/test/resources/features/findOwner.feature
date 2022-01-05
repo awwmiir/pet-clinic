@@ -1,4 +1,5 @@
 Feature: Find Owner
+
   Scenario:
     Given an owner with id = 1 is created
     And owner exists in the repository

@@ -5,6 +5,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.owner.*;
+import org.springframework.samples.petclinic.utility.PetTimedCache;
+
+import java.time.LocalDate;
 
 import static org.junit.Assert.*;
 
@@ -15,11 +18,53 @@ public class PetServiceStepDefs {
 	private OwnerRepository ownerRepository;
 	@Autowired
 	private PetRepository petRepository;
+	@Autowired
+	private PetTypeRepository petTypeRepository;
+	@Autowired
+	private PetTimedCache petTimedCache;
 
 	private Owner owner;
 	private Owner foundOwner;
 
+	private Pet pet;
 	private Pet savedPet;
+
+	private PetType petType;
+
+	@Given("all pets are {}")
+	public void setPetType(String type){
+		petType = new PetType();
+		petType.setName(type);
+		petTypeRepository.save(petType);
+	}
+
+	@Given("a pet with id = {} exists")
+	public void thereIsAPetWithId(Integer id) {
+		pet = new Pet();
+		pet.setName("kakoli");
+		pet.setType(petType);
+		pet.setId(id);
+		pet.setBirthDate(LocalDate.of(2020, 4, 7));
+	}
+
+	@Given("the owner of the pet is owner with id = {}")
+	public void addPetToOwner(int ownerId) {
+		createOwner(ownerId);
+		owner.addPet(pet);
+		saveOwnerInRepository();
+		petTimedCache.save(pet);
+	}
+
+	@When("findPet with id = {} is called")
+	public void findPetWithId(Integer id){
+		savedPet = petService.findPet(id);
+	}
+
+	@Then("expected pet is found correctly")
+	public void petIsFound(){
+		assertEquals(savedPet.getName(), pet.getName());
+		assertEquals(pet.getBirthDate(), savedPet.getBirthDate());
+	}
 
 	@Given("pet with id = {} exists in per repository")
 	public void petExistsInPetRepository(Integer id){

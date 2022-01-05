@@ -10,7 +10,7 @@ import org.springframework.samples.petclinic.owner.PetService;
 
 import static org.junit.Assert.assertEquals;
 
-public class FindOwnerStepDefs {
+public class PetServiceStepDefs {
 	@Autowired
 	private PetService petService;
 	@Autowired

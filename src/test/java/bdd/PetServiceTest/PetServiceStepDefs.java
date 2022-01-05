@@ -4,42 +4,54 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.owner.OwnerRepository;
-import org.springframework.samples.petclinic.owner.PetService;
+import org.springframework.samples.petclinic.owner.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PetServiceStepDefs {
 	@Autowired
 	private PetService petService;
 	@Autowired
 	private OwnerRepository ownerRepository;
+	@Autowired
+	private PetRepository petRepository;
 
 	private Owner owner;
 	private Owner foundOwner;
+
+	private Pet savedPet;
+
+	@Given("pet with id = {} exists in per repository")
+	public void petExistsInPetRepository(Integer id){
+		Pet pet = new Pet();
+		pet.setId(id);
+		petRepository.save(pet);
+	}
+
+	@When("owner requests a new pet")
+	public void ownerRequestsNewPet(){
+		savedPet = petService.newPet(owner);
+	}
+
+	@Then("a new pet is created and returned")
+	public void newPetReturnedPetService() {
+		assertNotNull(savedPet);
+	}
+
+	@Then("a new pet is added to owner pet list")
+	public void newPetIsSaved() {
+		assertTrue(owner.getPets().contains(savedPet));
+	}
 
 	@Given("an owner with id = {} is created")
 	public void createOwner(Integer id){
 		owner = new Owner();
 		owner.setId(id);
-	}
-
-	@Given("owners first name = {} and lastname = {}")
-	public void setOwnerName(String firstName, String lastName){
-		owner.setFirstName(firstName);
-		owner.setLastName(lastName);
-	}
-
-	@Given("owner lives in city = {} and at address = {}")
-	public void setOwnerAddressAndCity(String city, String address){
-		owner.setCity(city);
-		owner.setAddress(address);
-	}
-
-	@Given("owners phone = {}")
-	public void setOwnerPhone(String phone){
-		owner.setTelephone(phone);
+		owner.setFirstName("firstName");
+		owner.setLastName("lastName");
+		owner.setCity("city");
+		owner.setAddress("address");
+		owner.setTelephone("0123456789");
 	}
 
 	@Given("owner exists in the repository")

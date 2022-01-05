@@ -38,6 +38,22 @@ public class PetServiceStepDefs {
 		petTypeRepository.save(petType);
 	}
 
+	@Given("an owner with id = {} is created")
+	public void createOwner(Integer id){
+		owner = new Owner();
+		owner.setId(id);
+		owner.setFirstName("firstName");
+		owner.setLastName("lastName");
+		owner.setCity("city");
+		owner.setAddress("address");
+		owner.setTelephone("0123456789");
+	}
+
+	@Given("owner exists in the repository")
+	public void saveOwnerInRepository(){
+		ownerRepository.save(owner);
+	}
+
 	@Given("a pet with id = {} exists")
 	public void thereIsAPetWithId(Integer id) {
 		pet = new Pet();
@@ -55,17 +71,6 @@ public class PetServiceStepDefs {
 		petTimedCache.save(pet);
 	}
 
-	@When("findPet with id = {} is called")
-	public void findPetWithId(Integer id){
-		savedPet = petService.findPet(id);
-	}
-
-	@Then("expected pet is found correctly")
-	public void petIsFound(){
-		assertEquals(savedPet.getName(), pet.getName());
-		assertEquals(pet.getBirthDate(), savedPet.getBirthDate());
-	}
-
 	@Given("pet with id = {} exists in per repository")
 	public void petExistsInPetRepository(Integer id){
 		Pet pet = new Pet();
@@ -78,30 +83,9 @@ public class PetServiceStepDefs {
 		savedPet = petService.newPet(owner);
 	}
 
-	@Then("a new pet is created and returned")
-	public void newPetReturnedPetService() {
-		assertNotNull(savedPet);
-	}
-
-	@Then("a new pet is added to owner pet list")
-	public void newPetIsSaved() {
-		assertTrue(owner.getPets().contains(savedPet));
-	}
-
-	@Given("an owner with id = {} is created")
-	public void createOwner(Integer id){
-		owner = new Owner();
-		owner.setId(id);
-		owner.setFirstName("firstName");
-		owner.setLastName("lastName");
-		owner.setCity("city");
-		owner.setAddress("address");
-		owner.setTelephone("0123456789");
-	}
-
-	@Given("owner exists in the repository")
-	public void saveOwnerInRepository(){
-		ownerRepository.save(owner);
+	@When("findPet with id = {} is called")
+	public void findPetWithId(Integer id){
+		savedPet = petService.findPet(id);
 	}
 
 	@When("findOwner with Id = {} is called")
@@ -127,4 +111,22 @@ public class PetServiceStepDefs {
 		assertEquals(owner.getFirstName(), foundOwner.getFirstName());
 		assertEquals(owner.getLastName(), foundOwner.getLastName());
 	}
+
+	@Then("expected pet is found correctly")
+	public void petIsFound(){
+		assertEquals(savedPet.getName(), pet.getName());
+		assertEquals(pet.getBirthDate(), savedPet.getBirthDate());
+	}
+
+
+	@Then("a new pet is added to owner pet list")
+	public void newPetIsSaved() {
+		assertTrue(owner.getPets().contains(savedPet));
+	}
+
+	@Then("a new pet is created and returned")
+	public void newPetReturnedPetService() {
+		assertNotNull(savedPet);
+	}
+
 }

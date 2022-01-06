@@ -1,0 +1,30 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ ca7 ]
+  pull_request:
+    branches: [ ca7 ]
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+
+      - name: Build
+        run: mvn -B package --file pom.xml
+
+      - name: Compile
+        run: mvn compiler:testCompile
+
+      - name: Acceptance
+        run: mvn -Dtest=bdd.BDDEntryPointAcceptanceTest test
